@@ -1,0 +1,276 @@
+
+
+# Teil 1: Einführung
+
+* Die ursprünglichen Telefonnetze waren sogenannte Leitungsvermittelte Netze.
+
+* Beim Verbindungsaufbau wird ein physikalischer Pfad eingerichtet.
+
+* Ursprünglich wirkliches "Durchschalten" von Leitungen.
+
+## Paketvermittlung
+
+* Mehrere Benutzer teilen sich eine Übertragungssttrecke entsprechend ihrem
+  kirzfristigen Bedarf und lasten sie damit besser aus.
+
+## Pakete und Header
+
+* Daten werden in kleine Pakete zerlegt.
+* Über eine Leitung können dann abwechseld Pakete unterschiedlicher Verbindungen
+  und Kommunikationspartner übertragen werden.
+* Im einfachsten Falle werden Pakete in der Reihenfolge weitergeleitet in der sie
+  ankamen (stochastisches Multiplexing).
+
+* Die Pakete werden mit Steuerinformationen (vor allem: Adressinformationen) versehen.
+  Diese werden in einem Header übertragen.
+
+## Verbindungsorientierung
+
+* Paketvermittlung kann verbindungsorientiert oder verbindungslos umgesetzt sein.
+* Verbindungsorientierte Paketvermittlung findet man in ATM-Netzwerken in den
+  Netzen von Telekommunikationsfirmen.
+* Verbindungslose Paketvermittlung ist das Kernkonzept des Internet.
+** Idee: Jedes Paket enthält vollständige Adressinformationen.
+** Pakete können unabhängig voneinander transportiert werden, und ohne, dass jede
+zwischenstation über jede existierende Verbindung bescheid wissen muss.
+** Der Absender kann ohne vorherige Ankündigung Pakete an beliebige Empfänger übertragen.
+
+## Vorteile der Paketvermittlung
+
+* Paketvermittelnde Netzwerke können Übertragungskapazitäten effiktiver auslasten.
+** Kommunizierende Rechner können die Übertragungsstrecke nach ihren Bedürfnissen
+verwenden, solange andere nicht gestört werden (Fairness).
+* Die Vermittlungstechnik("Paket-switch"), "intermediate System", "router" vereinfacht sich.
+** Es ist nicht notwendig, über einzelne aktive Verbindungen Buch zu führen.
+
+## Nachteile der Paketvermittlung
+
+* Nicht vorhersehbare Übertragungsraten:
+** nicht genau vorhersehbar, wie viele Daten in einem bestimmten Zeitraum übertragen
+werden können.
+** Leitungsvermittlung ist hingegen immer deterministisch.
+* Nicht vorhersehbare Verzögerungszeiten:
+** Daten können wegen gemeinsamer Nutzung der Übertragungsstrecke nicht zu beliebigen
+Zeitpunkten übertragen werden.
+** deswegen treten Verzögerungen (Latenzen) auf,die von Paket zu Paket unterschiedlich
+sein können undn ur unter statistischen Annahmen verhersehbar sind.
+* Es kann zu Überlastsituationen in Routern kommen, wenn bei ihnen mehr Pakete ankommen,
+als sie weiterleiten können.
+
+## Best-Effort-Dienst im Internet
+
+* Im Internet sind alle diese möglichen Nachteile tatsächlich vorhanden.
+* Es gibt keinerlei Garantien:
+** wann und wie schnell ein Paket zugestellt wird,
+** dass Pakete in derselben Reihenfolge ankommen, in der sie abgeschickt wurden,
+** ob sie überhaupt zugestellt werden.
+
+* Das Netzt bemüht sich nur, die Daten zu ihrem Ziel zu transportieren (und das geht oft schief!).
+* Das nennt man Best-Effort-Dienst.
+* Wird zuverlässige, reigenfolgeerhaltende Kommunikation benötigt, müssen sich die
+kommunizierenden Endgeräte darum selbst kümmern.
+
+## Overprovisioning
+
+* Trotz dieser Nachteile ist das Internet ein extrem erfolgreiches Netz, dies liegt
+daran dass die Vorteile der Paketvermittlung die Nachteile in aller regel mehr als aufwiegen.
+* Der hauptgrund: Die Technik ist billiger und flexibler!
+* Mit einem gegebenen finanziellen Aufwand kann im Vergleich zur Leitungsvermittlung
+ein (zu den meisten Zeitpunkten) leistungsfähigeres paketvermittelndes Netzwerk aufgebaut werden.
+* Mit ausreichung Überkapazitäten wirken sick die Nachteile der Paketvermittlung weniger aus.
+* Das bewusste überdimensionieren eines Netzwerks, um zb Überlasteffekte zu vermeiden, wird
+overprovisioning genannt.
+
+## Der Endgerätebereich: Hosts
+
+* Der Netzwerkrand umfasst die Endgeräte, die das Netz zur Kommunikation nutzen(Hosts).
+
+## Der Zugangsbereich
+
+* Hosts sind über Zugangsnetzwerke an die Übertraungsnetzwerke angeschlossen (DSL, Mobilfunk..)
+
+## Der Übertragungsbereich
+
+* Das Netzwerkinnere besteht aus Links und Routern, die hauptsächlich von
+Providern (ISPs) bereitgestellt werden.
+
+## Protokolle
+
+* Ein Protokoll ist eine "Sprache", die zwischen Rechnern gesprochen wird, oder auch
+ein Satz von Verhaltensregeln, die sich alle beteiligten Kommunikatinspartner halten.
+* Legt bspw fest,
+** welche Nachrichten(arten) existieren,
+** welche Informationen diese in welcher Form und an welcher Stelle enthalten,
+** wie sie dargestellt werden,
+** wann welche Nachrichten verschickt werden dürfen/müssen.
+
+## Protokoll-Hierachien und Dienste
+
+* Fast alle Netzwerk-Architekturen verwenden eine Schichtenstruktor für Hard-Software.
+* Jede Schicht verdeckt Einzelheiten von der darüberliegenden Schicht und bietet
+dieser eine bestimmte Funktionalität an, den sogannenten Dienst.
+* Schicht n kommuniziert mit Schicht n des Kommunikationspartners und "spricht" dabei
+ein Schicht-n-protokoll.
+* Um Ihre Aufgabe zu erfüllen, nutzt sie die unmittelbar darunterliegende Schicht n-1.
+* Auf Basis des Dienstes von Schicht-n-1 und ihrer eigenen, zusätzlichen Funktionalität
+realisiert Schicht n dann einen anderen "höherwertigeren" Dienst.
+* Diesen Dienst bietet sie wieerum der darüberliegenden Schicht n+1 an.
+
+## Protokollstapel
+
+* Die in einem konkreten Anwendungsfall "aufeinandergeschichteten" Protokoll nennt man
+den Protokollstapel.
+* Hier interessiert uns ab sofort vor allem der Internetprotokollstapel, auch genannt
+TCP/IP-Protokollstapel, nach den beiden wichtigsten Protokollen.
+
+## Netzwerkzugang
+
+* Dienstmodell des Netzwerkzugangs: Übertragung von Paketen von einem Rechner zu
+einem direkt verbundenen anderen Rechner(über einen einzelnen Link).
+
+* Der Netzwerkzugang ist in TCP/IP-Netzwerken nicht näher spezifiziert, liegt
+gewissermassen "unterhalb" der dort definierten Funktionalität.
+
+* "Ganz unten" heißt, dass irgendein Übertragungskanal für eine Folge von Bits ex.
+* Hinzu kommt Funktionalität, die darüber die Übertragung einzelner Pakete ermöglicht
+und mögliche Übertragungsfehler erkennt.
+
+* Deshalb oft weitere (aber niucht immer scharfe) Unterteilung in die
+Bitübertragungsschicht (1) und die Sicherungsschicht(2).
+
+* Es wurden hard-software-Komponenten entwickelt um eine Übertraung
+zwischen "nachbarrechnern" zu realisieren (DSL, ISDN, HDMI etc)
+
+## Bitübertragungsschicht
+
+* für uns uninteressant
+
+## Sicherungssicht
+
+* Für die Übertragung muss die Sicherungsschicht Informationen zum Datenpaket hinzufügen.
+* Je nach Technologie unterschiedlich, typische Felder sind aber Absender/Empfänger,
+Kontrollinformationen, Daten für die Fehlerbehebung/Kerroktur.
+* Dafür wird ein header hinzugefügt:
+** Speziel auf der Sicherungsschicht verwenden viele Protokolle zusätzlich auch
+noch einen Trailer am Paketende.
+* Das übertregene Paket wird also in ein Sicherungsschicht-Paket verpackt.
+* In vielen Netzwerktechnologien werden die so entstehenden Pakete Rahmen(frame) genannt.
+* Der Empfänger am anderen Ende der Leitung packt das Paket wieder aus, entfernt also
+Header und ggf. Trailer.
+
+## Netzwerkschicht
+
+* Im wahren Leben möchten wir die Pakete nicht nur über einzelne Links übertragen.
+* Stattdessen laufen sie typischerweise über längere Pfade mit mehreren
+zwischenstationen (routern).
+* Diese Ende-Zu-Ende-Übertragung wird von der Netzwerkschicht implementiert.
+* Alle Rechner im Internet verwenden auf der Netzwerkschicht das InternetProtokoll.
+* Datenpakete, die in einem Host erzeugt werden, werden für die Übertragung um einen
+IP-Header ergänzt, dieser enthält ua die Infroamation, von welchem Host die Daten
+stammen und wohin sie übertragen werden sollen.
+* Dafür hat jeder Rechner im Internet eine weltweilt eindeutige IP-Adresse.
+* Ein Paket mit einem IP-Header nennt man IP-Paket oder acuh Datagram.
+* Der IP-Header wird also einmal am Quell-Host an das Paket angefügt und erst am
+Ziel-Host wieder entfernt.
+* Unterwegs entscheidet jeder Router anhand der Zieladresse im IP-Header, über
+welchen seiner Links das Paket als nächstes übertragen werden soll.
+* Diesen Vorgang nennt man Weiterleitung(forwarding).
+* Das Bestimmen der kürzesten Wege zu jeden Ziel nennt man Routing.
+* Den weg, den ein Datagram (IP-Paket) im Netzwerk nimmt, heißt Route.
+
+## Weiterleitung
+
+* Jeder Schritt (Hop) ist eine Übertragung auf einem Link, also unter Verwendung
+einer Sicherungsschicht.
+* Für die Übertragung wird das Datagram deshalb in jedem einzelnen Schritt
+** in einen Sicherungsschicht-Rahmen verpackt,
+** dann über den Link übertragen,
+** am anderen Ende des Links wieder ausgepackt und der dortigen Netzwerkschicht übergeben.
+
+## Dienstmodell der Netzwerkschicht
+
+* Der Dienst, den die Netzwerkschicht anbietet, ist also die Ende-Zu-Ende-Übertragung
+von Pakaten durch das Internet.
+* Damit können wir Datenpakete an den gewünschten Ziel-Host zustellen lassen.
+* Was die Netzwerkschicht nicht bietet ist eine zuverlässige Datenübertragung,
+Reihenfolgeerhaltung etc..
+* Außerdem laufen auf einem Host typischerweise mehrere kommunizierende Programme.
+* Wir haben noch keine Möglichkeit, Daten gezeilt an eine Anwendung zuzustellen.
+
+## Transportschicht
+
+* Diese Lücke zu schließen ist die zentrale Aufgabe der Transportschicht.
+* Die Transportschicht nutz den Dienst der netzwerkschicht für den Transport von
+Daten zwischen Anwendungsprogrammen.
+* Deshalb muss sie es ermöglichen, einzelne Anwewndungern zu adressieren.
+* Dafür werden so genannte Portnummern verwendet. Jede Anwendung wird nach Bedarf
+(mindestsns) eine Portnummer zugewiesen.
+* Die Absender- und Empfängerportnumer wird (mit anderen Steuerdaten) im
+Transportschicht-Header vermerkt.
+
+## Transportprotokolle
+
+* Das Internet unterstützt Transportprotokolle.
+* Die mit Abstand am häufigsten eingesetzten sind TCP/UDP.
+* Das User Datagram Protokoll(UDP) bietet einen unzuverlässigen Datagram-Dienst von
+Anwendung zu Anwendung, ist aber einfach und schnell.
+
+* Transmission Control Protokoll (TCP) ermöglicht die zuverlässige, reihenfolgeerhaltende Übertragung
+von Byteströmen von Anwendung zu Anwendung.
+* Realisiert außerdem Funktionen zur Vermeidung von Überlast im Internet.
+* Hochkomplexes Protokoll.
+
+## Transportschicht
+
+* Wenn eine Anwendung Daten mit TCP überträgt, dann übergibt sie also eine beliebig
+lange Folge von Bytes.
+* TCP zerlegt diesen Bytestrom in Pakete (TCP-Segmente).
+* Die wichtigsten Informationen in Header sind:
+** Sende- und Empfangs-Portnummer,
+** eine Sequenznummer, die die Reihenfolge des Paketes innerhalb des Bytestroms
+angibt (für Reihenfolgeerhaltung, Zuverlässigkeit).
+
+## Anwendung
+
+* Anwendungsprogramme nutzen zur Kommunikation - über eine Programmierschnittstelle
+wie z.B. die Socket-API - direkt die Dienste der Transportschicht.
+* Ein Anwendungsentwickler muss sich deshalb für ein Transportschichtprotokoll entscheiden.
+* ..und auf Basis dessen Dienstmodell sein eigenes Anwendungsprotokoll implementieren.
+* Beispiele für Anwendungsprotokolle:
+** das HyperText Transfer Protocol (HTTP) des WWW
+** das Simple Mail Transfer Protocol (SMTP) zür Übertragung von E-mails
+** das bitTorrent-Protokoll für den kooperativen Datei-Download
+** das Session Initiation Protocol (SIP) für Internet-Telefonie
+
+## Schichtenarchitektur des Internet
+
+* Das Grundprinzip ist immer dasselbe: Die n-te Schicht bietet der n+1-ten Schicht
+Dienste an und nutzt dafür die Dienste der n-1-ten Schicht.
+* Beispiel: Wenn mit HTTP eine Webseite übertragen wird, dann wird diese Webseite:
+** in eine HTTP-Nachricht (mit HTTP-Header) verpackt und an TCP übergeben (anwedungsschicht)
+** von TCP in Segmente zerlegt, die jeweils einen TCP-Header erhalten und so an die
+Netzwerkschicht übergeben werden (Transportschicht)
+** dort erhalten sie einen IP-Header und werden an die Sicherungsschicht
+weitergereicht, (Netzwerkschicht)
+** dort werden sie dann in Rahmen (frame) verpackt und an den nächsten Router
+übertragen (Sicherungsschicht).
+
+* Die IP-Pakete (Datagram) werden unabhängig voneinander über eine Folge von
+Links und Routern weitergeleitet.
+* Wenn sie am Ziel-Host ankommen, werden dort
+** die IP-Header entfernt und die Pakete an die Transportschicht hochgereicht,
+** die Segmente ausgepackt und von TCP wieder richtig zu einem Bytestrom zusammengesetzt,
+** dieser Bytestrom an die Empfänger-Anwendung weitergegeben.
+
+## Implementation der Schichten
+
+* Nur der Netzwerkzugang (Sicherungsschicht und "darunter") und die Netzwerkschicht.
+* Transport- und Anwendungsschichtdaten weitergeleiteter Pakete sind für den Router
+vollkommen irrelevant.
+* Diese Schichten müssen deshalb nur auf den Endgeräten am Rand des Netzwerks vorhanden sein.
+* Dass so viel Funktionalität und Komplexität wie möglich an den Rand des
+Netwerks verlagert wird, ist ein wesentliches Element der "Entwurfsphilosophie"
+des Internet.
+* Man nennt dies das Ende-Zu-Ende-Prinzip.
+
+# Teil 2
